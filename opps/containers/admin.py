@@ -110,6 +110,10 @@ class ContainerBoxAdmin(BaseBoxAdmin, AdminViewPermission):
             'fields': ('content_group', 'published', 'date_available')}),
     )
 
+    autocomplete_lookup_fields = {
+        'fk': ['channel'],
+    }
+
     def clean_ended_entries(self, request, queryset):
         now = timezone.now()
         for box in queryset:
