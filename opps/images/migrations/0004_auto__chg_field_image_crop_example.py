@@ -11,22 +11,26 @@ User = get_user_model()
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Image.archive_link'
-        db.add_column(u'images_image', 'archive_link',
-                      self.gf('django.db.models.fields.URLField')(max_length=255, null=True, blank=True),
-                      keep_default=False)
 
+        # Changing field 'Image.archive'
+        db.alter_column(u'images_image', 'archive', self.gf('django.db.models.fields.files.FileField')(max_length=2048, null=True))
+
+        # Changing field 'Image.archive_link'
+        db.alter_column(u'images_image', 'archive_link', self.gf('django.db.models.fields.URLField')(max_length=2048, null=True))
+
+        # Changing field 'Image.crop_example'
+        db.alter_column(u'images_image', 'crop_example', self.gf('django.db.models.fields.CharField')(max_length=2048, null=True))
+
+    def backwards(self, orm):
 
         # Changing field 'Image.archive'
         db.alter_column(u'images_image', 'archive', self.gf('django.db.models.fields.files.FileField')(max_length=255, null=True))
 
-    def backwards(self, orm):
-        # Deleting field 'Image.archive_link'
-        db.delete_column(u'images_image', 'archive_link')
+        # Changing field 'Image.archive_link'
+        db.alter_column(u'images_image', 'archive_link', self.gf('django.db.models.fields.URLField')(max_length=255, null=True))
 
-
-        # Changing field 'Image.archive'
-        db.alter_column(u'images_image', 'archive', self.gf('django.db.models.fields.files.FileField')(default='', max_length=255))
+        # Changing field 'Image.crop_example'
+        db.alter_column(u'images_image', 'crop_example', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
 
     models = {
         u'%s.%s' % (User._meta.app_label, User._meta.module_name): {
@@ -45,6 +49,22 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
+        u'auth.user': {
+            'Meta': {'object_name': 'User'},
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
+        },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -54,9 +74,9 @@ class Migration(SchemaMigration):
         },
         u'images.image': {
             'Meta': {'object_name': 'Image'},
-            'archive': ('django.db.models.fields.files.FileField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'archive_link': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'crop_example': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'archive': ('django.db.models.fields.files.FileField', [], {'max_length': '2048', 'null': 'True', 'blank': 'True'}),
+            'archive_link': ('django.db.models.fields.URLField', [], {'max_length': '2048', 'null': 'True', 'blank': 'True'}),
+            'crop_example': ('django.db.models.fields.CharField', [], {'max_length': '2048', 'null': 'True', 'blank': 'True'}),
             'crop_x1': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
             'crop_x2': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
             'crop_y1': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
@@ -84,7 +104,7 @@ class Migration(SchemaMigration):
             'valign': ('django.db.models.fields.CharField', [], {'default': 'False', 'max_length': '6', 'null': 'True', 'blank': 'True'})
         },
         u'sites.site': {
-            'Meta': {'ordering': "('domain',)", 'object_name': 'Site', 'db_table': "'django_site'"},
+            'Meta': {'ordering': "(u'domain',)", 'object_name': 'Site', 'db_table': "u'django_site'"},
             'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
