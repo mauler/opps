@@ -391,7 +391,13 @@ def exclude_queryset_by(queryset, **excludes):
             found_in_lookup = key
 
     if found_in_lookup:
-        excludes[found_in_lookup] = excludes[found_in_lookup].split(',')
+        value = excludes[found_in_lookup]
+        if isinstance(value, str):
+            value = value.split(",")
+        else:
+            value = list(value)
+
+        excludes[found_in_lookup] = value
 
     if not queryset.query.can_filter():
         # create new queryset based on the ids and apply filter
