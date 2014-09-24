@@ -27,12 +27,12 @@ class Archive(Publishable, Slugged):
 
     title = models.CharField(_(u"Title"), max_length=140, db_index=True)
     archive = models.FileField(upload_to=get_file_path,
-                               max_length=255,
+                               max_length=2048,
                                verbose_name=_(u'Archive'),
                                null=True,
                                blank=True)
     archive_link = models.URLField(_(u"Archive URL"),
-                                   max_length=255,
+                                   max_length=2048,
                                    null=True,
                                    blank=True)
     description = models.TextField(_(u"Description"), null=True, blank=True)
