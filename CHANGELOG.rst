@@ -2,12 +2,42 @@
 Changelog
 =========
 
+Development version
+====================
+
+
+0.2.7.3
+=======
+* Fix Article link duplicated redirect
+* Fix queryset on delete signal of container, using absolute reference to site and channel.
+
+0.2.7.2
+=======
+
+* Fix bug Opps API, remove page fields on query string
+
+   
+0.2.7.1
+=======
+
+* Fix bug Image model calls for field "archive.url" to get_absolute_url.
+* Change Pillow version to <= 2.3.0
+
+
 0.2.7
 =====
+
+* Adds new templatetags:
+    1. get_tags_count on container_tags
 
 * opps DetailView and ListView accepts template_name parameter via custom urls.
 * Create a management command exportcontainerbox to easy dump channel and box data
 * Create a management command update_channel_denormalization to update denormalized data
+* Fix bug Opps API set page limit via query string, ref #386
+* Create admin duplication action
+* Clean haystack view, not necessary page build
+* Upgrade django grappelli 2.4.8 to 2.4.10
+
 
 0.2.6
 =====
