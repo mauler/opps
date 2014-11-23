@@ -4,7 +4,7 @@ from datetime import datetime
 
 from django.conf import settings
 
-from haystack.indexes import Indexable
+from haystack.indexes import Indexable, CharField
 
 from opps.containers.search_indexes import ContainerIndex
 
@@ -20,6 +20,7 @@ else:
 
 
 class PostIndex(ContainerIndex, Indexable):
+    content = CharField(model_attr='content')
 
     def get_model(self):
         return Post
